@@ -1,25 +1,26 @@
-import { Controller, Get, Post, Body, Put, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Put, Delete, Query, UseInterceptors, ClassSerializerInterceptor, CacheInterceptor } from '@nestjs/common';
 import { UsersService } from '../services/Users.service';
 
 @Controller('api/users')
+@UseInterceptors(ClassSerializerInterceptor)
 export class UsersController {
 
   constructor(
     private UsersService: UsersService
   ) {}
 
+  @UseInterceptors(CacheInterceptor)
   @Get()
-  findAll() {
-    return this.UsersService.findAll();
-  }
-
-  @Get(':cpf')
-  findOne(@Param('cpf') cpf: string) {
-    return this.UsersService.findOne(cpf);
+  findAll(@Query() query: any) {
+    if(query.cpf !== undefined){
+      return this.UsersService.findOne(query.cpf)
+    }else{
+      return this.UsersService.findAll();
+    }
   }
 
   @Post()
-  create(@Body() body: any) {
+  async create(@Body() body: any) {
     return this.UsersService.create(body);
   }
 
@@ -28,9 +29,11 @@ export class UsersController {
     return this.UsersService.update(body);
   }
 
-  @Delete(':cpf')
-  delete(@Param('cpf') cpf: string) {
-    return this.UsersService.remove(cpf);
+  @Delete()
+  delete(@Query() query: any) {
+    if(query.cpf !== undefined){
+      return this.UsersService.remove(query.cpf)
+    }
   }
 
 }

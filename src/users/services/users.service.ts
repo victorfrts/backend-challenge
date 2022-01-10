@@ -18,9 +18,14 @@ export class UsersService {
     return this.UsersRepo.findOne(cpf);
   }
 
-  create(body: any) {
-    const newUser = this.UsersRepo.create(body);
-    return this.UsersRepo.save(newUser);
+  async create(body: any) {
+    const User = await this.UsersRepo.findOne(body.cpf);
+    if(User.cpf === undefined){
+      const newUser = this.UsersRepo.create(body);
+      return this.UsersRepo.save(newUser);
+    }else{
+      return false
+    }
   }
 
   async update(body: any) {
