@@ -1,0 +1,13 @@
+version: '3.3'
+
+services:
+  backend-challenge:
+    image: postgres:13
+    environment:
+      - POSTGRES_DB=nestdb
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=admin
+    ports:
+      - '5432:5432'
+    volumes:
+      - ./postgres_data:/var/lib/postgresql
