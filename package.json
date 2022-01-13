@@ -10,7 +10,7 @@
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "nest start",
-    "start:dev": "nest start --watch",
+    "start:dev": "docker-compose up -d backend-challenge && nest start --watch",
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/main",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
@@ -24,7 +24,7 @@
     "migrations:run": "npm run typeorm -- migration:run",
     "migrations:drop": "npm run typeorm -- schema:drop",
     "migrations:show": "npm run typeorm -- migration:show",
-    "start:dev:db": "docker-compose up -d backend-challenge"
+    "start:db": "docker-compose up -d backend-challenge"
   },
   "dependencies": {
     "@nestjs/common": "^8.0.0",
