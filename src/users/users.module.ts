@@ -6,7 +6,10 @@ import { UsersController } from './controllers/Users.controller';
 
 @Module({
   imports: [
-    CacheModule.register(),
+    CacheModule.register({
+      ttl: 25, 
+      max: 50, 
+    }),
     TypeOrmModule.forFeature([User])
   ],
   providers: [UsersService],

@@ -31,9 +31,7 @@ export class UsersController {
 
   @Delete()
   delete(@Query() query: any) {
-    if(query.cpf !== undefined){
-      return this.UsersService.remove(query.cpf)
-    }
+    return this.UsersService.remove(query.cpf)
   }
 
 }
