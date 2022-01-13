@@ -1,7 +1,8 @@
-import { Controller, Get, Post, Body, Put, Delete, Query, UseInterceptors, ClassSerializerInterceptor, CacheInterceptor } from '@nestjs/common';
+import { Controller, Get, Post, Body, Put, Delete, Query, UseInterceptors, ClassSerializerInterceptor, CacheInterceptor, Param } from '@nestjs/common';
+import axios from 'axios';
 import { UsersService } from '../services/Users.service';
 
-@Controller('api/users')
+@Controller('api')
 @UseInterceptors(ClassSerializerInterceptor)
 export class UsersController {
 
@@ -9,14 +10,21 @@ export class UsersController {
     private UsersService: UsersService
   ) {}
 
+  @Get('/users')
+  findAll() {
+    return this.UsersService.findAll();
+  }
+  
+  @Get('/user')
+  findOne(@Query() query: any) {
+    return this.UsersService.findOne(query.cpf)
+  }
+  
   @UseInterceptors(CacheInterceptor)
-  @Get()
-  findAll(@Query() query: any) {
-    if(query.cpf !== undefined){
-      return this.UsersService.findOne(query.cpf)
-    }else{
-      return this.UsersService.findAll();
-    }
+  @Get('/cep')
+  async findCep(@Query() query: any){
+    const response = await axios.get(`https://viacep.com.br/ws/${query.cep}/json/`)
+    return response.data
   }
 
   @Post()
