@@ -27,17 +27,17 @@ export class UsersController {
     return response.data
   }
 
-  @Post()
+  @Post('/user')
   async create(@Body() body: any) {
     return this.UsersService.create(body);
   }
 
-  @Put()
+  @Put('/user')
   update(@Body() body: any) {
     return this.UsersService.update(body);
   }
 
-  @Delete()
+  @Delete('/user')
   delete(@Query() query: any) {
     return this.UsersService.remove(query.cpf)
   }
